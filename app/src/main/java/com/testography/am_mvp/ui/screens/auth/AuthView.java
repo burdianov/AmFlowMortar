@@ -17,6 +17,7 @@ import com.testography.am_mvp.mvp.views.IAuthView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import flow.Flow;
 
 public class AuthView extends RelativeLayout implements IAuthView {
 
@@ -49,6 +50,9 @@ public class AuthView extends RelativeLayout implements IAuthView {
 
     public AuthView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        if (!isInEditMode()) {
+            mScreen = Flow.getKey(this);
+        }
 
         // TODO: 25-Nov-16 get mScreen and dagger component
     }
@@ -59,9 +63,9 @@ public class AuthView extends RelativeLayout implements IAuthView {
         super.onFinishInflate();
         ButterKnife.bind(this);
 
-//        if (!isInEditMode()) {
-//            showViewFromState();
-//        }
+        if (!isInEditMode()) {
+            showViewFromState();
+        }
     }
 
     @Override

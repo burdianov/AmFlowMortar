@@ -20,7 +20,7 @@ import mortar.ViewPresenter;
 @Screen(R.layout.screen_auth)
 public class AuthScreen extends AbstractScreen<RootActivity.Component> {
 
-    private int mCustomState;
+    private int mCustomState = 1;
 
     public void setCustomState(int customState) {
         mCustomState = customState;

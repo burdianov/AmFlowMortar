@@ -190,6 +190,10 @@ public class SplashActivity extends AppCompatActivity implements IRootView {
 
     @Override
     public void onBackPressed() {
+        if (getCurrentScreen() != null && !getCurrentScreen().viewOnBackPressed()
+                && !Flow.get(this).goBack()) {
+            super.onBackPressed();
+        }
 //        if (!mAuthPanel.isIdle()) {
 //            mAuthPanel.setCustomState(AuthPanel.IDLE_STATE);
 //        } else {

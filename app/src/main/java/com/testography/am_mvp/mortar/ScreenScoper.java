@@ -1,10 +1,12 @@
 package com.testography.am_mvp.mortar;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.flow.AbstractScreen;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -39,22 +41,39 @@ public class ScreenScoper {
         }
     }
 
-    private static void destroyScreenScope(String scopeName) {
+    public static void destroyScreenScope(String scopeName) {
         MortarScope mortarScope = sScopeMap.get(scopeName);
         mortarScope.destroy();
         cleanScopeMap();
     }
 
+    @Nullable
     private static String getParentScopeName(AbstractScreen screen) {
-        return null;
+
+        try {
+            String genericName = ((Class) ((ParameterizedType) screen.getClass()
+                    .getGenericSuperclass()).getActualTypeArguments()[0]).getName();
+            String parentScopeName = genericName;
+
+            if (parentScopeName.contains("$")) {
+                parentScopeName = parentScopeName.substring(0, genericName.indexOf("$"));
+            }
+            return parentScopeName;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private static MortarScope createScreenScope(AbstractScreen screen) {
         Log.e(TAG, "createScreenScope with name: " + screen.getScopeName());
-        String parentScopeName = getParentScopeName(screen);
-        MortarScope parentScope = sScopeMap.get(parentScopeName);
-        Object parentComponent = screen.createScreenComponent(parentScope
+        MortarScope parentScope = sScopeMap.get(getParentScopeName(screen));
+        Object screenComponent = screen.createScreenComponent(parentScope
                 .getService(DaggerService.SERVICE_NAME));
-        return null;
+        MortarScope newScope = parentScope.buildChild()
+                .withService(DaggerService.SERVICE_NAME, screenComponent)
+                .build(screen.getScopeName());
+        registerScope(newScope);
+        return newScope;
     }
 }

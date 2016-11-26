@@ -28,9 +28,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.BuildConfig;
 import com.testography.am_mvp.R;
-import com.testography.am_mvp.di.DaggerService;
+import com.testography.am_mvp.di.components.AppComponent;
+import com.testography.am_mvp.di.modules.PicassoCacheModule;
 import com.testography.am_mvp.di.scopes.RootScope;
 import com.testography.am_mvp.mvp.presenters.RootPresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
@@ -86,13 +88,6 @@ public class RootActivity extends AppCompatActivity implements IRootView,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_root);
         ButterKnife.bind(this);
-
-        Component component = DaggerService.getComponent(Component.class);
-        if (component == null) {
-            component = createDaggerComponent();
-            DaggerService.registerComponent(Component.class, component);
-        }
-        component.inject(this);
 
         initToolbar();
         initDrawer();
@@ -322,14 +317,9 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     //endregion
 
     //region ==================== DI ===================
-    private Component createDaggerComponent() {
-        return DaggerRootActivity_Component.builder()
-                .module(new Module())
-                .build();
-    }
 
     @dagger.Module
-    public class Module {
+    public class RootModule {
         @Provides
         @RootScope
         RootPresenter provideRootPresenter() {
@@ -337,12 +327,17 @@ public class RootActivity extends AppCompatActivity implements IRootView,
         }
     }
 
-    @dagger.Component(modules = Module.class)
+    @dagger.Component(dependencies = AppComponent.class, modules = {RootModule
+            .class, PicassoCacheModule.class})
     @RootScope
     public interface Component {
         void inject(RootActivity activity);
 
+        void inject(SplashActivity activity);
+
         RootPresenter getRootPresenter();
+
+        Picasso getPicasso();
     }
     //endregion
 }

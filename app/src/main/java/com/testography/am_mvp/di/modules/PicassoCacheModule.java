@@ -4,8 +4,7 @@ import android.content.Context;
 
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
-
-import javax.inject.Singleton;
+import com.testography.am_mvp.di.scopes.RootScope;
 
 import dagger.Module;
 import dagger.Provides;
@@ -14,7 +13,7 @@ import dagger.Provides;
 public class PicassoCacheModule {
 
     @Provides
-    @Singleton
+    @RootScope
     Picasso providePicasso(Context context) {
         OkHttp3Downloader okHttp3Downloader = new OkHttp3Downloader(context);
         Picasso picasso = new Picasso.Builder(context)

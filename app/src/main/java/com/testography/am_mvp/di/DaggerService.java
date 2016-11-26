@@ -1,5 +1,6 @@
 package com.testography.am_mvp.di;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -11,6 +12,14 @@ import java.util.Map;
 public class DaggerService {
     public static final String TAG = "DaggerService";
     public static final String SERVICE_NAME = "MY_DAGGER_SERVICE";
+
+    @SuppressWarnings("unchecked")
+    public static <T> T getDaggerComponent(Context context) {
+        //noinspection ResourceType
+        return (T) context.getSystemService(SERVICE_NAME);
+    }
+
+    // TODO: 27-Nov-16 fix me
     private static Map<Class, Object> sComponentMap = new HashMap<>();
 
     public static void registerComponent(Class componentClass, Object

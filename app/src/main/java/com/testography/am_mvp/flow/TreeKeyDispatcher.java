@@ -87,6 +87,10 @@ public class TreeKeyDispatcher extends KeyChanger implements Dispatcher {
 
             // TODO: 25-Nov-16 unregister screen scope
             //delete old view
+            if ((outKey) != null) {
+                ((AbstractScreen) outKey).unregisterScope();
+            }
+
             if (mRootFrame.getChildAt(0) != null) {
                 mRootFrame.removeView(mRootFrame.getChildAt(0));
             }

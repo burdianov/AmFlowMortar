@@ -1,7 +1,6 @@
 package com.testography.am_mvp.ui.fragments;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,28 +21,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.add_address_btn)
     Button mAddAddress;
 
-    private Callbacks mCallbacks;
-
-    public interface Callbacks {
-        void callAddressFragment(AddressFragment addressFragment);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mCallbacks = (Callbacks) activity;
-    }
 
     @Override
     public void onClick(View view) {
-        mCallbacks.callAddressFragment(new AddressFragment());
+
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallbacks = null;
-    }
 
     public AccountFragment() {
         // Required empty public constructor

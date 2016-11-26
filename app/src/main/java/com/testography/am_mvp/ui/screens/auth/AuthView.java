@@ -12,7 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.testography.am_mvp.R;
+import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.mvp.views.IAuthView;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,8 +27,8 @@ public class AuthView extends RelativeLayout implements IAuthView {
     public static final int LOGIN_STATE = 0;
     public static final int IDLE_STATE = 1;
 
-//    @Inject
-//    AuthScreen.AuthPresenter mPresenter;
+    @Inject
+    AuthScreen.AuthPresenter mPresenter;
 
     @BindView(R.id.auth_card)
     CardView mAuthCard;
@@ -52,6 +55,8 @@ public class AuthView extends RelativeLayout implements IAuthView {
         super(context, attrs);
         if (!isInEditMode()) {
             mScreen = Flow.getKey(this);
+            DaggerService.<AuthScreen.Component>getDaggerComponent(context)
+                    .inject(this);
         }
 
         // TODO: 25-Nov-16 get mScreen and dagger component
@@ -72,7 +77,7 @@ public class AuthView extends RelativeLayout implements IAuthView {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (!isInEditMode()) {
-//            mPresenter.takeView(this);
+            mPresenter.takeView(this);
         }
     }
 
@@ -80,7 +85,7 @@ public class AuthView extends RelativeLayout implements IAuthView {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (!isInEditMode()) {
-//            mPresenter.dropView(this);
+            mPresenter.dropView(this);
         }
     }
     //endregion
@@ -125,27 +130,27 @@ public class AuthView extends RelativeLayout implements IAuthView {
     //region ==================== Events ===================
     @OnClick(R.id.login_btn)
     void loginClick() {
-//        mPresenter.clickOnLogin();
+        mPresenter.clickOnLogin();
     }
 
     @OnClick(R.id.fb_social_btn)
     void fbClick() {
-//        mPresenter.clickOnFb();
+        mPresenter.clickOnFb();
     }
 
     @OnClick(R.id.twitter_social_btn)
     void twitterClick() {
-//        mPresenter.clickOnTwitter();
+        mPresenter.clickOnTwitter();
     }
 
     @OnClick(R.id.vk_social_btn)
     void vkClick() {
-//        mPresenter.clickOnVk();
+        mPresenter.clickOnVk();
     }
 
     @OnClick(R.id.show_catalog_btn)
     void catalogClick() {
-//        mPresenter.clickOnShowCatalog();
+        mPresenter.clickOnShowCatalog();
     }
     //endregion
 
@@ -163,7 +168,7 @@ public class AuthView extends RelativeLayout implements IAuthView {
 
     @Override
     public void showCatalogScreen() {
-//        mPresenter.clickOnShowCatalog();
+        mPresenter.clickOnShowCatalog();
     }
 
     @Override

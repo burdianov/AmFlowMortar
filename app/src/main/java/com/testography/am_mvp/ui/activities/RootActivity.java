@@ -1,6 +1,7 @@
 package com.testography.am_mvp.ui.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,8 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -31,19 +30,16 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.BuildConfig;
 import com.testography.am_mvp.R;
+import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.di.components.AppComponent;
 import com.testography.am_mvp.di.modules.PicassoCacheModule;
 import com.testography.am_mvp.di.modules.RootModule;
 import com.testography.am_mvp.di.scopes.RootScope;
+import com.testography.am_mvp.flow.TreeKeyDispatcher;
 import com.testography.am_mvp.mvp.presenters.RootPresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.mvp.views.IView;
-import com.testography.am_mvp.ui.fragments.AccountFragment;
-import com.testography.am_mvp.ui.fragments.AddressFragment;
-import com.testography.am_mvp.ui.fragments.CatalogFragment;
-import com.testography.am_mvp.ui.fragments.FavoritesFragment;
-import com.testography.am_mvp.ui.fragments.NotificationsFragment;
-import com.testography.am_mvp.ui.fragments.OrdersFragment;
+import com.testography.am_mvp.ui.screens.auth.AuthScreen;
 import com.testography.am_mvp.utils.RoundedAvatarDrawable;
 
 import java.io.InputStream;
@@ -53,10 +49,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import flow.Flow;
+import mortar.MortarScope;
+import mortar.bundler.BundleServiceRunner;
 
 public class RootActivity extends AppCompatActivity implements IRootView,
-        NavigationView.OnNavigationItemSelectedListener, AccountFragment
-                .Callbacks {
+        NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawer;
@@ -66,12 +64,10 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     Toolbar mToolbar;
     @BindView(R.id.coordinator_container)
     CoordinatorLayout mCoordinatorContainer;
-    @BindView(R.id.fragment_container)
-    FrameLayout mFragmentContainer;
+    @BindView(R.id.root_frame)
+    FrameLayout mRootFrame;
 
     protected ProgressDialog mProgressDialog;
-
-    FragmentManager mFragmentManager;
 
     @Inject
     RootPresenter mRootPresenter;
@@ -83,50 +79,40 @@ public class RootActivity extends AppCompatActivity implements IRootView,
 
 //    private ActionBarDrawerToggle mToggle;
 
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        newBase = Flow.configure(newBase, this)
+                .defaultKey(new AuthScreen())
+                .dispatcher(new TreeKeyDispatcher(this))
+                .install();
+
+        super.attachBaseContext(newBase);
+    }
+
+    @Override
+    public Object getSystemService(String name) {
+        MortarScope rootActivityScope = MortarScope.findChild
+                (getApplicationContext(), RootActivity.class.getName());
+        return rootActivityScope.hasService(name) ? rootActivityScope.getService
+                (name) : super.getSystemService(name);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_root);
+        BundleServiceRunner.getBundleServiceRunner(this).onCreate(savedInstanceState);
         ButterKnife.bind(this);
+
+        RootComponent rootComponent = DaggerService.getDaggerComponent(this);
+        rootComponent.inject(this);
 
         initToolbar();
         initDrawer();
         initExitDialog();
         mRootPresenter.takeView(this);
         mRootPresenter.initView();
-
-        mFragmentManager = getSupportFragmentManager();
-        if (savedInstanceState == null) {
-            mFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, new CatalogFragment())
-                    .commit();
-        }
-
-//        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-//            @Override
-//            public void onBackStackChanged() {
-//                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-//                    getSupportActionBar().setDisplayHomeAsUpEnabled(true); // show back button
-//                    mToolbar.setNavigationOnClickListener(new View
-//                            .OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            onBackPressed();
-//                        }
-//                    });
-//                } else {
-//                    //show hamburger
-//                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//                    mToggle.syncState();
-//                    mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            mDrawer.openDrawer(GravityCompat.START);
-//                        }
-//                    });
-//                }
-//            }
-//        });
     }
 
     @Override
@@ -139,6 +125,12 @@ public class RootActivity extends AppCompatActivity implements IRootView,
         TextView tv = (TextView) notifCount.findViewById(R.id.items_in_cart_txt);
         tv.setText("8");
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        BundleServiceRunner.getBundleServiceRunner(this).onSaveInstanceState(outState);
     }
 
     @Override
@@ -168,14 +160,22 @@ public class RootActivity extends AppCompatActivity implements IRootView,
 
     @Override
     public void onBackPressed() {
-        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
-        } else {
-            if (mFragmentManager.getBackStackEntryCount() == 0) {
-                exitDialog.show();
-            } else {
-                super.onBackPressed();
-                int activeItem = 0;
+        if (getCurrentScreen() != null && !getCurrentScreen().viewOnBackPressed()
+                && !Flow.get(this).goBack()) {
+            super.onBackPressed();
+        }
+    }
+
+//    @Override
+//    public void onBackPressed() {
+//        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+//            mDrawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            if (mFragmentManager.getBackStackEntryCount() == 0) {
+//                exitDialog.show();
+//            } else {
+//                super.onBackPressed();
+//                int activeItem = 0;
 //                mNavSet.remove(mNavSet.size() - 1);
 //                if (mNavSet.size() > 0) {
 //                    activeItem = mNavSet.get(mNavSet.size() - 1);
@@ -183,9 +183,9 @@ public class RootActivity extends AppCompatActivity implements IRootView,
 //                    activeItem = 1;
 //                }
 //                mNavigationView.getMenu().getItem(activeItem).setChecked(true);
-            }
-        }
-    }
+//            }
+//        }
+//    }
 
     private void initDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
@@ -204,34 +204,23 @@ public class RootActivity extends AppCompatActivity implements IRootView,
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Fragment fragment = null;
+
         switch (item.getItemId()) {
             case R.id.nav_account:
-                fragment = new AccountFragment();
                 mActiveNavItem = 0;
                 break;
             case R.id.nav_catalog:
-                fragment = new CatalogFragment();
                 mActiveNavItem = 1;
                 break;
             case R.id.nav_favorites:
-                fragment = new FavoritesFragment();
                 mActiveNavItem = 2;
                 break;
             case R.id.nav_orders:
-                fragment = new OrdersFragment();
                 mActiveNavItem = 3;
                 break;
             case R.id.nav_notifications:
-                fragment = new NotificationsFragment();
                 mActiveNavItem = 4;
                 break;
-        }
-        if (fragment != null) {
-            mFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-//                    .addToBackStack(String.valueOf(mActiveNavItem))
-                    .commit();
         }
         mDrawer.closeDrawer(GravityCompat.START);
         mNavSet.add(mActiveNavItem);
@@ -250,17 +239,6 @@ public class RootActivity extends AppCompatActivity implements IRootView,
             avatar.setBackground(new RoundedAvatarDrawable(bitmap));
         }
     }
-
-    @Override
-    public void callAddressFragment(AddressFragment addressFragment) {
-        if (addressFragment != null) {
-            mFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, addressFragment)
-                    .addToBackStack(null)
-                    .commit();
-        }
-    }
-
 
     //region ==================== IRootView ===================
 
@@ -321,7 +299,7 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     @dagger.Component(dependencies = AppComponent.class, modules = {RootModule
             .class, PicassoCacheModule.class})
     @RootScope
-    public interface Component {
+    public interface RootComponent {
         void inject(RootActivity activity);
         void inject(SplashActivity activity);
 

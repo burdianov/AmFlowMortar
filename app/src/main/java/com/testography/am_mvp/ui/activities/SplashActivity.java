@@ -17,19 +17,25 @@ import android.widget.ImageButton;
 
 import com.testography.am_mvp.BuildConfig;
 import com.testography.am_mvp.R;
+import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.flow.TreeKeyDispatcher;
+import com.testography.am_mvp.mortar.ScreenScoper;
 import com.testography.am_mvp.mvp.presenters.RootPresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.mvp.views.IView;
 import com.testography.am_mvp.ui.screens.auth.AuthScreen;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import flow.Flow;
+import mortar.MortarScope;
+import mortar.bundler.BundleServiceRunner;
 
 public class SplashActivity extends AppCompatActivity implements IRootView {
 
-    //    @Inject
+    @Inject
     RootPresenter mRootPresenter;
 
     @BindView(R.id.coordinator_container)
@@ -48,42 +54,50 @@ public class SplashActivity extends AppCompatActivity implements IRootView {
         super.attachBaseContext(newBase);
     }
 
+    @Override
+    public Object getSystemService(String name) {
+        MortarScope rootActivityScope = MortarScope.findChild
+                (getApplicationContext(), RootActivity.class.getName());
+        return rootActivityScope.hasService(name) ? rootActivityScope.getService
+                (name) : super.getSystemService(name);
+    }
+
     //region ========== Life cycle ==========
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BundleServiceRunner.getBundleServiceRunner(this).onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
 
-//        Component component = DaggerService.getComponent(Component.class);
-//        if (component == null) {
-//            component = createDaggerComponent();
-//            DaggerService.registerComponent(Component.class, component);
-//        }
-//        component.inject(this);
-//
-//        mPresenter.takeView(this);
-//        mPresenter.initView();
+        DaggerService.<RootActivity.RootComponent>getDaggerComponent(this).inject
+                (this);
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        BundleServiceRunner.getBundleServiceRunner(this).onSaveInstanceState(outState);
     }
 
     @Override
     protected void onResume() {
-//        mRootPresenter.takeView(this);
+        mRootPresenter.takeView(this);
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-//        mRootPresenter.dropView();
+        mRootPresenter.dropView();
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-//        mPresenter.dropView();
         if (isFinishing()) {
-//            DaggerService.unregisterScope(AuthScope.class);
+            ScreenScoper.destroyScreenScope(AuthScreen.class.getName());
         }
         super.onDestroy();
     }
@@ -194,11 +208,6 @@ public class SplashActivity extends AppCompatActivity implements IRootView {
                 && !Flow.get(this).goBack()) {
             super.onBackPressed();
         }
-//        if (!mAuthPanel.isIdle()) {
-//            mAuthPanel.setCustomState(AuthPanel.IDLE_STATE);
-//        } else {
-//            super.onBackPressed();
-//        }
     }
 
     // TODO: 25-Nov-16 Resolve the commented methods

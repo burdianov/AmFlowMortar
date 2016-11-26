@@ -70,7 +70,7 @@ public class CatalogPresenter extends AbstractPresenter<ICatalogView> implements
 
     private Component createDaggerComponent() {
         return DaggerCatalogPresenter_Component.builder()
-                .component(DaggerService.getComponent(RootActivity.Component.class))
+                .rootComponent(DaggerService.getComponent(RootActivity.RootComponent.class))
                 .module(new Module())
                 .build();
     }
@@ -84,7 +84,7 @@ public class CatalogPresenter extends AbstractPresenter<ICatalogView> implements
         }
     }
 
-    @dagger.Component(dependencies = RootActivity.Component.class, modules =
+    @dagger.Component(dependencies = RootActivity.RootComponent.class, modules =
             Module.class)
     @CatalogScope
     interface Component {

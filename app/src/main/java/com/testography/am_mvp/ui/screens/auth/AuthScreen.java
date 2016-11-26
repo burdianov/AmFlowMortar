@@ -5,20 +5,25 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import com.testography.am_mvp.R;
+import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.di.scopes.AuthScope;
 import com.testography.am_mvp.flow.AbstractScreen;
 import com.testography.am_mvp.flow.Screen;
 import com.testography.am_mvp.mvp.models.AuthModel;
 import com.testography.am_mvp.mvp.presenters.IAuthPresenter;
+import com.testography.am_mvp.mvp.presenters.RootPresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.ui.activities.RootActivity;
 import com.testography.am_mvp.utils.CredentialsValidator;
 
+import javax.inject.Inject;
+
 import dagger.Provides;
+import mortar.MortarScope;
 import mortar.ViewPresenter;
 
 @Screen(R.layout.screen_auth)
-public class AuthScreen extends AbstractScreen<RootActivity.Component> {
+public class AuthScreen extends AbstractScreen<RootActivity.RootComponent> {
 
     private int mCustomState = 1;
 
@@ -31,8 +36,11 @@ public class AuthScreen extends AbstractScreen<RootActivity.Component> {
     }
 
     @Override
-    public Object createScreenComponent(RootActivity.Component parentComponent) {
-        return null;
+    public Object createScreenComponent(RootActivity.RootComponent parentRootComponent) {
+        return DaggerAuthScreen_Component.builder()
+                .rootComponent(parentRootComponent)
+                .module(new Module())
+                .build();
     }
 
     //region ==================== DI ===================
@@ -52,7 +60,7 @@ public class AuthScreen extends AbstractScreen<RootActivity.Component> {
         }
     }
 
-    @dagger.Component(dependencies = RootActivity.Component.class, modules =
+    @dagger.Component(dependencies = RootActivity.RootComponent.class, modules =
             Module.class)
     @AuthScope
     public interface Component {
@@ -64,10 +72,16 @@ public class AuthScreen extends AbstractScreen<RootActivity.Component> {
     //region ==================== Presenter ===================
     public class AuthPresenter extends ViewPresenter<AuthView> implements IAuthPresenter {
 
-//        @Inject
-//        AuthModel mAuthModel;
-//        @Inject
-//        RootPresenter mRootPresenter;
+        @Inject
+        AuthModel mAuthModel;
+        @Inject
+        RootPresenter mRootPresenter;
+
+        @Override
+        protected void onEnterScope(MortarScope scope) {
+            super.onEnterScope(scope);
+            ((Component) scope.getService(DaggerService.SERVICE_NAME)).inject(this);
+        }
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {
@@ -84,7 +98,7 @@ public class AuthScreen extends AbstractScreen<RootActivity.Component> {
 
         @Nullable
         private IRootView getRootView() {
-            return null; //mRootPresenter.getView();
+            return mRootPresenter.getView();
         }
 
         @Override
@@ -106,7 +120,7 @@ public class AuthScreen extends AbstractScreen<RootActivity.Component> {
 //                    getView().showMessage(sAppContext.getString(R.string.err_msg_password));
                         return;
                     }
-//                    mAuthModel.loginUser(email, password);
+                    mAuthModel.loginUser(email, password);
                     getRootView().showLoad();
                     getRootView().showMessage("request for user auth");
 
@@ -151,7 +165,7 @@ public class AuthScreen extends AbstractScreen<RootActivity.Component> {
 
         @Override
         public boolean checkUserAuth() {
-            return false; //mAuthModel.isAuthUser();
+            return mAuthModel.isAuthUser();
         }
     }
     //endregion

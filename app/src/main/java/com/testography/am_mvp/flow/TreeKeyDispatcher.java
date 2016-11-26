@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.testography.am_mvp.R;
+import com.testography.am_mvp.mortar.ScreenScoper;
 
 import java.util.Collections;
 import java.util.Map;
@@ -53,9 +54,10 @@ public class TreeKeyDispatcher extends KeyChanger implements Dispatcher {
             // TODO: 25-Nov-16 implement treekey case for those who will rewriter ScreenScoper
         }
 
-        // TODO: 25-Nov-16 mortar context for screen
         Context flowContext = traversal.createContext(inKey, mActivity);
-        contexts = Collections.singletonMap(inKey, flowContext);
+        Context mortarContext = ScreenScoper.getScreenScope((AbstractScreen)
+                inKey).createContext(flowContext);
+        contexts = Collections.singletonMap(inKey, mortarContext);
         changeKey(outState, inState, traversal.direction, contexts, callback);
     }
 
@@ -85,7 +87,6 @@ public class TreeKeyDispatcher extends KeyChanger implements Dispatcher {
             //restore state to new view
             incomingState.restore(newView);
 
-            // TODO: 25-Nov-16 unregister screen scope
             //delete old view
             if ((outKey) != null) {
                 ((AbstractScreen) outKey).unregisterScope();

@@ -12,7 +12,7 @@ import com.testography.am_mvp.di.modules.AppModule;
 import com.testography.am_mvp.di.modules.PicassoCacheModule;
 import com.testography.am_mvp.di.modules.RootModule;
 import com.testography.am_mvp.mortar.ScreenScoper;
-import com.testography.am_mvp.ui.activities.DaggerRootActivity_Component;
+import com.testography.am_mvp.ui.activities.DaggerRootActivity_RootComponent;
 import com.testography.am_mvp.ui.activities.RootActivity;
 
 import mortar.MortarScope;
@@ -22,7 +22,7 @@ public class App extends Application {
     private static SharedPreferences sSharedPreferences;
     private static Context sAppContext;
     private MortarScope mRootActivityScope;
-    private RootActivity.Component mRootActivityComponent;
+    private RootActivity.RootComponent mRootActivityRootComponent;
 
     public static AppComponent getAppComponent() {
         return sAppComponent;
@@ -48,7 +48,7 @@ public class App extends Application {
                 .build("Root");
 
         mRootActivityScope = mRootScope.buildChild()
-                .withService(DaggerService.SERVICE_NAME, mRootActivityComponent)
+                .withService(DaggerService.SERVICE_NAME, mRootActivityRootComponent)
                 .withService(BundleServiceRunner.SERVICE_NAME, new BundleServiceRunner())
                 .build(RootActivity.class.getName());
 
@@ -74,7 +74,7 @@ public class App extends Application {
     }
 
     private void createRootActivityComponent() {
-        mRootActivityComponent = DaggerRootActivity_Component.builder()
+        mRootActivityRootComponent = DaggerRootActivity_RootComponent.builder()
                 .appComponent(sAppComponent)
                 .rootModule(new RootModule())
                 .picassoCacheModule(new PicassoCacheModule())

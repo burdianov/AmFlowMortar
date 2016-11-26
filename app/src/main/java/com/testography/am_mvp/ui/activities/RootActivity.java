@@ -33,6 +33,7 @@ import com.testography.am_mvp.BuildConfig;
 import com.testography.am_mvp.R;
 import com.testography.am_mvp.di.components.AppComponent;
 import com.testography.am_mvp.di.modules.PicassoCacheModule;
+import com.testography.am_mvp.di.modules.RootModule;
 import com.testography.am_mvp.di.scopes.RootScope;
 import com.testography.am_mvp.mvp.presenters.RootPresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
@@ -52,7 +53,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.Provides;
 
 public class RootActivity extends AppCompatActivity implements IRootView,
         NavigationView.OnNavigationItemSelectedListener, AccountFragment
@@ -317,15 +317,6 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     //endregion
 
     //region ==================== DI ===================
-
-    @dagger.Module
-    public class RootModule {
-        @Provides
-        @RootScope
-        RootPresenter provideRootPresenter() {
-            return new RootPresenter();
-        }
-    }
 
     @dagger.Component(dependencies = AppComponent.class, modules = {RootModule
             .class, PicassoCacheModule.class})

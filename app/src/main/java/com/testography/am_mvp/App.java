@@ -9,7 +9,10 @@ import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.di.components.AppComponent;
 import com.testography.am_mvp.di.components.DaggerAppComponent;
 import com.testography.am_mvp.di.modules.AppModule;
+import com.testography.am_mvp.di.modules.PicassoCacheModule;
+import com.testography.am_mvp.di.modules.RootModule;
 import com.testography.am_mvp.mortar.ScreenScoper;
+import com.testography.am_mvp.ui.activities.DaggerRootActivity_Component;
 import com.testography.am_mvp.ui.activities.RootActivity;
 
 import mortar.MortarScope;
@@ -71,7 +74,10 @@ public class App extends Application {
     }
 
     private void createRootActivityComponent() {
-      /*  mRootActivityComponent = DaggerRootActivity_Component.builder()
-                .*/
+        mRootActivityComponent = DaggerRootActivity_Component.builder()
+                .appComponent(sAppComponent)
+                .rootModule(new RootModule())
+                .picassoCacheModule(new PicassoCacheModule())
+                .build();
     }
 }

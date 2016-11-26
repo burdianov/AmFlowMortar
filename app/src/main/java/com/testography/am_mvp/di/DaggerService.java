@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class DaggerService {
     public static final String TAG = "DaggerService";
+    public static final String SERVICE_NAME = "MY_DAGGER_SERVICE";
     private static Map<Class, Object> sComponentMap = new HashMap<>();
 
     public static void registerComponent(Class componentClass, Object

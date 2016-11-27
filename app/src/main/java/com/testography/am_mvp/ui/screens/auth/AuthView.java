@@ -126,7 +126,6 @@ public class AuthView extends RelativeLayout implements IAuthView {
         mShowCatalogBtn.setVisibility(VISIBLE);
     }
 
-
     //region ==================== Events ===================
     @OnClick(R.id.login_btn)
     void loginClick() {

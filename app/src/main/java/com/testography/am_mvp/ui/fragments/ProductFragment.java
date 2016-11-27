@@ -14,14 +14,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.testography.am_mvp.App;
 import com.testography.am_mvp.R;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
-import com.testography.am_mvp.di.DaggerService;
-import com.testography.am_mvp.di.components.DaggerPicassoComponent;
-import com.testography.am_mvp.di.components.PicassoComponent;
-import com.testography.am_mvp.di.modules.PicassoCacheModule;
-import com.testography.am_mvp.di.scopes.ProductScope;
 import com.testography.am_mvp.mvp.presenters.ProductPresenter;
 import com.testography.am_mvp.mvp.views.IProductView;
 
@@ -29,7 +23,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.Provides;
 
 public class ProductFragment extends Fragment implements IProductView, View.OnClickListener {
     public static final String TAG = "ProductFragment";
@@ -69,12 +62,12 @@ public class ProductFragment extends Fragment implements IProductView, View.OnCl
     }
 
     private void readBundle(Bundle bundle) {
-        if (bundle != null) {
+       /* if (bundle != null) {
             ProductDto product = bundle.getParcelable(PRODUCT_KEY);
             Component component = createDaggerComponent(product);
             component.inject(this);
             // TODO: 04-Nov-16 fix recreate component
-        }
+        }*/
     }
 
     @Nullable
@@ -201,9 +194,14 @@ public class ProductFragment extends Fragment implements IProductView, View.OnCl
         }
     }
 
+    @Override
+    public boolean viewOnBackPressed() {
+        return false;
+    }
+
     //region ==================== DI ===================
 
-    private Component createDaggerComponent(ProductDto product) {
+   /* private Component createDaggerComponent(ProductDto product) {
         PicassoComponent picassoComponent = DaggerService.getComponent(PicassoComponent.class);
         if (picassoComponent == null) {
             picassoComponent = DaggerPicassoComponent.builder()
@@ -242,7 +240,7 @@ public class ProductFragment extends Fragment implements IProductView, View.OnCl
     @ProductScope
     interface Component {
         void inject(ProductFragment fragment);
-    }
+    }*/
 
     //endregion
 

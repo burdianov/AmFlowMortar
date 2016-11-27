@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.testography.am_mvp.ui.screens.account.AccountView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<android.support.v4.widget.NestedScrollView-->
+    <!--android:paddingLeft="@dimen/spacing_normal_16"-->
+    <!--android:paddingRight="@dimen/spacing_normal_16"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <!--<android.support.design.widget.TextInputLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+    <!---->
+    <!--<EditText-->
+    <!--android:id="@+id/user_phone_et"-->
+    <!--style="@style/EditTextProfile"-->
+    <!--android:backgroundTint="@color/grey"-->
+    <!--android:enabled="false"-->
+    <!--android:hint="@string/phone_label"-->
+    <!--android:inputType="phone"-->
+    <!--android:focusable="false"-->
+    <!--android:text="@string/phone"/>-->
+    <!--</android.support.design.widget.TextInputLayout>-->
+
+    <!--</LinearLayout>-->
+    <!--<View style="@style/HorizontalDivider"/>-->
+
+    <!--<TextView-->
+    <!--style="@style/CustomText.AccountTitle"-->
+    <!--android:text="@string/delivery_address"/>-->
+
+    <!--<android.support.v7.widget.RecyclerView-->
+    <!--android:id="@+id/address_list"-->
+    <!--android:visibility="gone"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"/>-->
+
+    <!--<Button-->
+    <!--android:id="@+id/add_address_btn"-->
+    <!--style="@style/CustomButton"-->
+    <!--android:layout_marginTop="@dimen/spacing_normal_16"-->
+    <!--android:text="@string/add_address"-->
+    <!--android:theme="@style/StartButton"/>-->
+
+    <!--<View style="@style/HorizontalDivider"-->
+    <!--android:layout_marginTop="@dimen/spacing_normal_16"/>-->
+
+    <!--<TextView-->
+    <!--style="@style/CustomText.AccountTitle"-->
+    <!--android:text="@string/push_notifications"/>-->
+
+    <!--<android.support.v7.widget.SwitchCompat-->
+    <!--android:id="@+id/notification_order_sw"-->
+    <!--style="@style/CustomSwitch"-->
+    <!--android:text="@string/order_status_notification"/>-->
+
+    <!--<android.support.v7.widget.SwitchCompat-->
+    <!--android:id="@+id/notification_promo_sw"-->
+    <!--style="@style/CustomSwitch"-->
+    <!--android:text="@string/special_offer_notification"/>-->
+
+    <!--</android.support.v4.widget.NestedScrollView>-->
+</com.testography.am_mvp.ui.screens.account.AccountView>

@@ -31,6 +31,17 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        return o instanceof ProductScreen && mProductDto.equals(((ProductScreen)
+                o).mProductDto);
+    }
+
+    @Override
+    public int hashCode() {
+        return mProductDto.hashCode();
+    }
+
+    @Override
     public Object createScreenComponent(CatalogScreen.Component parentComponent) {
         return DaggerProductScreen_Component.builder()
                 .component(parentComponent)

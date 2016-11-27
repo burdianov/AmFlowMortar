@@ -85,7 +85,7 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
             super.onLoad(savedInstanceState);
 
             if (getView() != null) {
-                //getView().showCatalogView(mCatalogModel.getProductList());
+                getView().showCatalogView(mCatalogModel.getProductList());
             }
         }
 
@@ -109,7 +109,7 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
 
         @Override
         public boolean checkUserAuth() {
-            return false;//mCatalogModel.isUserAuth();
+            return mCatalogModel.isUserAuth();
         }
     }
     //endregion

@@ -71,8 +71,7 @@ public class CatalogView extends RelativeLayout implements ICatalogView {
 
     @Override
     public void showCatalogView(List<ProductDto> productsList) {
-        CatalogAdapter adapter = null; //new CatalogAdapter(getChildFragmentManager
-        // ());
+        CatalogAdapter adapter = new CatalogAdapter();
         for (ProductDto product : productsList) {
             adapter.addItem(product);
         }

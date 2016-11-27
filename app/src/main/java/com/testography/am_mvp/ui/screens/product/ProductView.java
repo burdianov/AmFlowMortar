@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ProductView extends LinearLayout implements IProductView {
 
@@ -171,4 +172,18 @@ public class ProductView extends LinearLayout implements IProductView {
         return false;
     }
     //endregion
+
+    //region ==================== Events ===================
+    @OnClick(R.id.plus_btn)
+    void clickPlus() {
+        mPresenter.clickOnPlus();
+    }
+
+    @OnClick(R.id.minus_btn)
+    void clickMinus() {
+        mPresenter.clickOnMinus();
+    }
+    //endregion
+
+
 }

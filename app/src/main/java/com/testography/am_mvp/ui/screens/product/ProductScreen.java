@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.testography.am_mvp.R;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
+import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.di.scopes.ProductScope;
 import com.testography.am_mvp.flow.AbstractScreen;
 import com.testography.am_mvp.flow.Screen;
@@ -14,6 +15,7 @@ import com.testography.am_mvp.ui.screens.catalog.CatalogScreen;
 import javax.inject.Inject;
 
 import dagger.Provides;
+import mortar.MortarScope;
 import mortar.ViewPresenter;
 
 @Screen(R.layout.screen_product)
@@ -30,7 +32,10 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
 
     @Override
     public Object createScreenComponent(CatalogScreen.Component parentComponent) {
-        return null;
+        return DaggerProductScreen_Component.builder()
+                .component(parentComponent)
+                .module(new Module())
+                .build();
     }
 
     //region ==================== DI ===================
@@ -59,6 +64,12 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
 
         public ProductPresenter(ProductDto productDto) {
             mProduct = productDto;
+        }
+
+        @Override
+        protected void onEnterScope(MortarScope scope) {
+            super.onEnterScope(scope);
+            ((Component) scope.getService(DaggerService.SERVICE_NAME)).inject(this);
         }
 
         @Override

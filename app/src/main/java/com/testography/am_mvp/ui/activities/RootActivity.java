@@ -285,7 +285,7 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     @Nullable
     @Override
     public IView getCurrentScreen() {
-        return null;
+        return (IView) mRootFrame.getChildAt(0);
     }
 
     @Override

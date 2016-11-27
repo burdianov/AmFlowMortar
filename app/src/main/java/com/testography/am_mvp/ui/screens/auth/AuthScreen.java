@@ -14,6 +14,7 @@ import com.testography.am_mvp.mvp.presenters.IAuthPresenter;
 import com.testography.am_mvp.mvp.presenters.RootPresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.ui.activities.RootActivity;
+import com.testography.am_mvp.ui.activities.SplashActivity;
 import com.testography.am_mvp.utils.CredentialsValidator;
 
 import javax.inject.Inject;
@@ -158,8 +159,13 @@ public class AuthScreen extends AbstractScreen<RootActivity.RootComponent> {
         @Override
         public void clickOnShowCatalog() {
             if (getView() != null && getRootView() != null) {
-                // TODO: 25-Nov-16 start RootActivity
+                getRootView().showMessage("Show catalog");
 
+                if (getRootView() instanceof SplashActivity) {
+                    ((SplashActivity) getRootView()).startRootActivity();
+                } else {
+                    // TODO: 27-Nov-16 show catalog screen
+                }
             }
         }
 

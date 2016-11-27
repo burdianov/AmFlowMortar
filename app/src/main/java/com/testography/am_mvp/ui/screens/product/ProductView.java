@@ -1,14 +1,10 @@
-package com.testography.am_mvp.ui.fragments;
+package com.testography.am_mvp.ui.screens.product;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.Context;
+import android.util.AttributeSet;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
@@ -16,7 +12,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.R;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
-import com.testography.am_mvp.mvp.presenters.ProductPresenter;
+import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.mvp.views.IProductView;
 
 import javax.inject.Inject;
@@ -24,9 +20,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProductFragment extends Fragment implements IProductView, View.OnClickListener {
-    public static final String TAG = "ProductFragment";
-    private static final String PRODUCT_KEY = "PRODUCT";
+public class ProductView extends LinearLayout implements IProductView {
+
+    public static final String TAG = "ProductView";
 
     @BindView(R.id.product_name_txt)
     TextView mProductNameTxt;
@@ -45,50 +41,40 @@ public class ProductFragment extends Fragment implements IProductView, View.OnCl
 
     @Inject
     Picasso mPicasso;
-
     @Inject
-    ProductPresenter mPresenter;
+    ProductScreen.ProductPresenter mPresenter;
 
-    public ProductFragment() {
-
+    public ProductView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        if (!isInEditMode()) {
+            DaggerService.<ProductScreen.Component>getDaggerComponent(context)
+                    .inject(this);
+        }
     }
 
-    public static ProductFragment newInstance(ProductDto product) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(PRODUCT_KEY, product);
-        ProductFragment fragment = new ProductFragment();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    private void readBundle(Bundle bundle) {
-       /* if (bundle != null) {
-            ProductDto product = bundle.getParcelable(PRODUCT_KEY);
-            Component component = createDaggerComponent(product);
-            component.inject(this);
-            // TODO: 04-Nov-16 fix recreate component
-        }*/
-    }
-
-    @Nullable
+    //region ==================== flow view lifecycle callbacks ===================
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_product, container, false);
-        ButterKnife.bind(this, view);
-        readBundle(getArguments());
-        mPresenter.takeView(this);
-        mPresenter.initView();
-        mPlusBtn.setOnClickListener(this);
-        mMinusBtn.setOnClickListener(this);
-
-        return view;
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        ButterKnife.bind(this);
     }
 
     @Override
-    public void onDestroyView() {
-        mPresenter.dropView();
-        super.onDestroyView();
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (!isInEditMode()) {
+            mPresenter.takeView(this);
+        }
     }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (!isInEditMode()) {
+            mPresenter.dropView(this);
+        }
+    }
+    //endregion
 
     //region ==================== IProductView ===================
     @Override
@@ -147,7 +133,7 @@ public class ProductFragment extends Fragment implements IProductView, View.OnCl
                 .into(mProductImage, new Callback() {
                     @Override
                     public void onSuccess() {
-                        Log.e(TAG, "onSuccess: load from cache");
+
                     }
 
                     @Override
@@ -180,69 +166,9 @@ public class ProductFragment extends Fragment implements IProductView, View.OnCl
         }
     }
 
-    //endregion
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.minus_btn:
-                mPresenter.clickOnMinus();
-                break;
-            case R.id.plus_btn:
-                mPresenter.clickOnPlus();
-                break;
-        }
-    }
-
     @Override
     public boolean viewOnBackPressed() {
         return false;
     }
-
-    //region ==================== DI ===================
-
-   /* private Component createDaggerComponent(ProductDto product) {
-        PicassoComponent picassoComponent = DaggerService.getComponent(PicassoComponent.class);
-        if (picassoComponent == null) {
-            picassoComponent = DaggerPicassoComponent.builder()
-                    .appComponent(App.getAppComponent())
-                    .picassoCacheModule(new PicassoCacheModule())
-                    .build();
-            DaggerService.registerComponent(PicassoComponent.class, picassoComponent);
-        }
-        return DaggerProductFragment_Component.builder()
-                .picassoComponent(picassoComponent)
-                .module(new Module(product))
-                .build();
-    }
-
-    @Override
-    public boolean viewOnBackPressed() {
-        return false;
-    }
-
-    @dagger.Module
-    public class Module {
-        ProductDto mProductDto;
-
-        public Module(ProductDto productDto) {
-            mProductDto = productDto;
-        }
-
-        @Provides
-        @ProductScope
-        ProductPresenter provideProductPresenter() {
-            return new ProductPresenter(mProductDto);
-        }
-    }
-
-    @dagger.Component(dependencies = PicassoComponent.class, modules = Module.class)
-    @ProductScope
-    interface Component {
-        void inject(ProductFragment fragment);
-    }*/
-
     //endregion
-
-
 }

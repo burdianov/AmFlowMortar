@@ -1,10 +1,12 @@
 package com.testography.am_mvp.ui.screens.catalog;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.R;
+import com.testography.am_mvp.data.storage.dto.ProductDto;
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.di.scopes.CatalogScope;
 import com.testography.am_mvp.flow.AbstractScreen;
@@ -15,6 +17,7 @@ import com.testography.am_mvp.mvp.presenters.RootPresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.ui.activities.RootActivity;
 import com.testography.am_mvp.ui.screens.auth.AuthScreen;
+import com.testography.am_mvp.ui.screens.product.ProductScreen;
 
 import javax.inject.Inject;
 
@@ -53,7 +56,7 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
     @dagger.Component(dependencies = RootActivity.RootComponent.class, modules =
             Module.class)
     @CatalogScope
-    interface Component {
+    public interface Component {
         void inject(CatalogPresenter presenter);
         void inject(CatalogView view);
 
@@ -111,5 +114,26 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
     }
     //endregion
 
+    public static class Factory {
+        public static Context createProductContext(ProductDto product, Context
+                parentContext) {
+            MortarScope parentScope = MortarScope.getScope(parentContext);
+            MortarScope childScope = null;
+            ProductScreen screen = new ProductScreen(product);
+            String scopeName = String.format("%s_%d", screen.getScopeName(),
+                    product.getId());
 
+            if (parentScope.findChild(scopeName) == null) {
+                childScope = parentScope.buildChild()
+                        .withService(DaggerService.SERVICE_NAME, screen
+                                .createScreenComponent(DaggerService
+                                        .<CatalogScreen.Component>getDaggerComponent
+                                                (parentContext)))
+                        .build(scopeName);
+            } else {
+                childScope = parentScope.findChild(scopeName);
+            }
+            return childScope.createContext(parentContext);
+        }
+    }
 }

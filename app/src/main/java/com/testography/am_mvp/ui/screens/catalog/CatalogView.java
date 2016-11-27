@@ -10,7 +10,6 @@ import com.testography.am_mvp.R;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.mvp.views.ICatalogView;
-import com.testography.am_mvp.ui.fragments.adapters.CatalogAdapter;
 
 import java.util.List;
 

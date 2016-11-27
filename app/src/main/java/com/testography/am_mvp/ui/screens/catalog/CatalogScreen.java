@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.squareup.picasso.Picasso;
+import com.testography.am_mvp.R;
+import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.di.scopes.CatalogScope;
 import com.testography.am_mvp.flow.AbstractScreen;
+import com.testography.am_mvp.flow.Screen;
 import com.testography.am_mvp.mvp.models.CatalogModel;
 import com.testography.am_mvp.mvp.presenters.ICatalogPresenter;
 import com.testography.am_mvp.mvp.presenters.RootPresenter;
@@ -17,13 +20,18 @@ import javax.inject.Inject;
 
 import dagger.Provides;
 import flow.Flow;
+import mortar.MortarScope;
 import mortar.ViewPresenter;
 
+@Screen(R.layout.screen_catalog)
 public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
 
     @Override
     public Object createScreenComponent(RootActivity.RootComponent parentComponent) {
-        return null;
+        return DaggerCatalogScreen_Component.builder()
+                .rootComponent(parentComponent)
+                .module(new Module())
+                .build();
     }
 
     //region ==================== DI ===================
@@ -47,11 +55,9 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
     @CatalogScope
     interface Component {
         void inject(CatalogPresenter presenter);
-
         void inject(CatalogView view);
 
         CatalogModel getCatalogModel();
-
         Picasso getPicasso();
     }
     //endregion
@@ -66,11 +72,17 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
         CatalogModel mCatalogModel;
 
         @Override
+        protected void onEnterScope(MortarScope scope) {
+            super.onEnterScope(scope);
+            ((Component) scope.getService(DaggerService.SERVICE_NAME)).inject(this);
+        }
+
+        @Override
         protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
 
             if (getView() != null) {
-                getView().showCatalogView(mCatalogModel.getProductList());
+                //getView().showCatalogView(mCatalogModel.getProductList());
             }
         }
 
@@ -94,7 +106,7 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
 
         @Override
         public boolean checkUserAuth() {
-            return mCatalogModel.isUserAuth();
+            return false;//mCatalogModel.isUserAuth();
         }
     }
     //endregion

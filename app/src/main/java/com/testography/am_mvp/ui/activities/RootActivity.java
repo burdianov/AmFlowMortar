@@ -39,7 +39,7 @@ import com.testography.am_mvp.flow.TreeKeyDispatcher;
 import com.testography.am_mvp.mvp.presenters.RootPresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.mvp.views.IView;
-import com.testography.am_mvp.ui.screens.auth.AuthScreen;
+import com.testography.am_mvp.ui.screens.catalog.CatalogScreen;
 import com.testography.am_mvp.utils.RoundedAvatarDrawable;
 
 import java.io.InputStream;
@@ -83,7 +83,7 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     @Override
     protected void attachBaseContext(Context newBase) {
         newBase = Flow.configure(newBase, this)
-                .defaultKey(new AuthScreen())
+                .defaultKey(new CatalogScreen())
                 .dispatcher(new TreeKeyDispatcher(this))
                 .install();
 

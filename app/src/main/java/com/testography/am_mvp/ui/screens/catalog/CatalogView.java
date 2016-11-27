@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 
 import com.testography.am_mvp.R;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
+import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.mvp.views.ICatalogView;
 import com.testography.am_mvp.ui.fragments.adapters.CatalogAdapter;
 
@@ -17,6 +18,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.relex.circleindicator.CircleIndicator;
 
 public class CatalogView extends RelativeLayout implements ICatalogView {
@@ -34,6 +36,11 @@ public class CatalogView extends RelativeLayout implements ICatalogView {
 
     public CatalogView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        if (!isInEditMode()) {
+            DaggerService.<CatalogScreen.Component>getDaggerComponent(context).inject
+                    (this);
+        }
     }
 
     //region ==================== flow view lifecycle callbacks ===================
@@ -82,5 +89,10 @@ public class CatalogView extends RelativeLayout implements ICatalogView {
     @Override
     public boolean viewOnBackPressed() {
         return false;
+    }
+
+    @OnClick(R.id.add_to_card_btn)
+    void clickAddToCart() {
+        mPresenter.clickOnBuyButton(mProductPager.getCurrentItem());
     }
 }

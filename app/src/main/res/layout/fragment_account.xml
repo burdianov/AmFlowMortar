@@ -301,7 +301,7 @@
                         android:layout_marginEnd="@dimen/spacing_normal_16"
                         android:layout_marginStart="@dimen/spacing_normal_16"
                         android:checked="true"
-                        android:theme="@style/PushSwitch"/>
+                        android:theme="@style/CustomSwitch"/>
 
                 </LinearLayout>
 
@@ -324,7 +324,7 @@
                         android:layout_marginEnd="@dimen/spacing_normal_16"
                         android:layout_marginStart="@dimen/spacing_normal_16"
                         android:checked="true"
-                        android:theme="@style/PushSwitch"/>
+                        android:theme="@style/CustomSwitch"/>
 
                 </LinearLayout>
 

@@ -1,4 +1,4 @@
-package com.testography.am_mvp.utils;
+package com.testography.am_mvp.ui.behaviors;
 
 import android.content.Context;
 import android.content.res.TypedArray;

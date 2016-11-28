@@ -99,5 +99,6 @@
     <string name="street">Street</string>
     <string name="dummy_street">Dummy Street</string>
     <string name="basket">Basket</string>
+    <string name="user_full_name">Константин Константинов</string>
 
 </resources>

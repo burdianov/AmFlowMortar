@@ -135,10 +135,33 @@
         <item name="android:fullDark">@android:color/transparent</item>
     </style>
 
-    <style name="PushSwitch" parent="Theme.AppCompat.Light">
-
+    <style name="CustomSwitch" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorSwitchThumbNormal">@color/color_white</item>
         <item name="android:colorForeground">@color/color_grey_darker</item>
+    </style>
+
+    <style name="Icon">
+        <item name="android:layout_width">@dimen/spacing_normal_16</item>
+        <item name="android:layout_height">@dimen/spacing_normal_16</item>
+        <item name="android:layout_marginRight">@dimen/spacing_normal_16</item>
+        <item name="android:layout_marginTop">@dimen/spacing_small_8</item>
+        <item name="android:src">@drawable/ic_call_black_24dp</item>
+        <item name="android:tint">@color/colorAccent</item>
+    </style>
+
+    <style name="HorizontalDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/line_size_1</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_normal_20</item>
+        <item name="android:background">@color/grey_light</item>
+    </style>
+
+    <style name="AccountTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_medial_24</item>
+        <item name="android:textSize">@dimen/font_small_14</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

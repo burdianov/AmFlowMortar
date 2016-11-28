@@ -12,6 +12,7 @@
     <dimen name="font_normal_18">18sp</dimen>
     <dimen name="font_medium_20">20sp</dimen>
     <dimen name="font_medium_24">24sp</dimen>
+    <dimen name="font_medium_32">32sp</dimen>
     <dimen name="font_medium_34">34sp</dimen>
     <dimen name="font_medium_plus_40">40sp</dimen>
     <dimen name="font_large_45">45sp</dimen>
@@ -75,8 +76,8 @@
     <dimen name="badge_text_size">12sp</dimen>
     <dimen name="spacing_zero">0dp</dimen>
     <dimen name="appbar_account_margin_top">0dp</dimen>
-    <dimen name="account_avatar_height">136dp</dimen>
-    <dimen name="account_avatar_width">136dp</dimen>
+    <dimen name="account_avatar_height">140dp</dimen>
+    <dimen name="account_avatar_width">140dp</dimen>
     <dimen name="pointer_size">18dp</dimen>
     <dimen name="account_toolbar_height">184dp</dimen>
 
@@ -84,5 +85,6 @@
     <dimen name="avatar_big_final_width">0dp</dimen>
     <dimen name="spacing_normal">16dp</dimen>
     <dimen name="avatar_margin_top">116dp</dimen>
+    <dimen name="collapsing_toolbar_height">180dp</dimen>
 
 </resources>

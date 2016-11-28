@@ -27,6 +27,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import flow.Flow;
 
 public class AccountView extends CoordinatorLayout implements IAccountView {
@@ -101,6 +102,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
             mPresenter.dropView(this);
         }
     }
+    //endregion
 
     public void initView(UserDto user) {
         mUserDto = user;
@@ -142,7 +144,6 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         mPicasso.load(mUserDto.getAvatar())
                 .into(userAvatarImg);
     }
-    //endregion
 
     //region ==================== IAccountView ===================
     @Override
@@ -234,4 +235,15 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         }
     }
     //endregion
+
+    //region ==================== Events ===================
+    // TODO: 29-Nov-16 delete item address using swipe
+
+    @OnClick(R.id.collapsing_toolbar)
+    void testEditMode() {
+        mPresenter.switchViewState();
+    }
+    //endregion
+
+
 }

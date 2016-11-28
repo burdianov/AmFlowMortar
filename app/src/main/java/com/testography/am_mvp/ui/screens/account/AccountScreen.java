@@ -111,6 +111,9 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
                         .getUserPhone());
                 mAccountModel.saveAvatarPhoto(mAvatarUri);
             }
+            if (getView() != null) {
+                getView().changeState();
+            }
         }
 
         @Override

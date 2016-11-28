@@ -7,7 +7,14 @@ import android.preference.PreferenceManager;
 import com.testography.am_mvp.utils.ConstantsManager;
 
 public class PreferencesManager {
+
     private final SharedPreferences mSharedPreferences;
+
+    public static String PROFILE_FULL_NAME_KEY = "PROFILE_FULL_NAME_KEY";
+    public static String PROFILE_AVATAR_KEY = "PROFILE_AVATAR_KEY";
+    public static String PROFILE_PHONE_KEY = "PROFILE_PHONE_KEY";
+    public static String NOTIFICATION_ORDER_KEY = "NOTIFICATION_ORDER_KEY";
+    public static String NOTIFICATION_PROMO_KEY = "NOTIFICATION_PROMO_KEY";
 
     public PreferencesManager(Context context) {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);

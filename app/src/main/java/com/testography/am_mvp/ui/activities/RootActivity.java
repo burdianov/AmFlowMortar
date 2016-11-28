@@ -39,6 +39,7 @@ import com.testography.am_mvp.flow.TreeKeyDispatcher;
 import com.testography.am_mvp.mvp.presenters.RootPresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.mvp.views.IView;
+import com.testography.am_mvp.ui.screens.account.AccountScreen;
 import com.testography.am_mvp.ui.screens.catalog.CatalogScreen;
 import com.testography.am_mvp.utils.RoundedAvatarDrawable;
 
@@ -205,11 +206,14 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+        Object key = null;
         switch (item.getItemId()) {
             case R.id.nav_account:
+                key = new AccountScreen();
                 mActiveNavItem = 0;
                 break;
             case R.id.nav_catalog:
+                key = new CatalogScreen();
                 mActiveNavItem = 1;
                 break;
             case R.id.nav_favorites:
@@ -221,6 +225,9 @@ public class RootActivity extends AppCompatActivity implements IRootView,
             case R.id.nav_notifications:
                 mActiveNavItem = 4;
                 break;
+        }
+        if (key != null) {
+            Flow.get(this).set(key);
         }
         mDrawer.closeDrawer(GravityCompat.START);
         mNavSet.add(mActiveNavItem);

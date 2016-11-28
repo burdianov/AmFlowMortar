@@ -20,12 +20,14 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.R;
 import com.testography.am_mvp.data.storage.dto.UserDto;
+import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.mvp.views.IAccountView;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import flow.Flow;
 
 public class AccountView extends CoordinatorLayout implements IAccountView {
 
@@ -62,6 +64,11 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
 
     public AccountView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        if (!isInEditMode()) {
+            mScreen = Flow.getKey(this);
+            DaggerService.<AccountScreen.Component>getDaggerComponent(context).inject
+                    (this);
+        }
     }
 
     //region ==================== flow view lifecycle callbacks ===================
@@ -69,10 +76,6 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     protected void onFinishInflate() {
         super.onFinishInflate();
         ButterKnife.bind(this);
-
-        if (!isInEditMode()) {
-
-        }
     }
 
     private void showViewFromState() {

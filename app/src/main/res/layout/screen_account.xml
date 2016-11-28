@@ -43,7 +43,7 @@
         android:elevation="4dp"
         android:src="@drawable/user_avatar"
         app:layout_anchorGravity="bottom|center_horizontal"
-        app:layout_behavior=".utils.AvatarImageBehavior"/>
+        app:layout_behavior=".ui.behaviors.AvatarImageBehavior"/>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

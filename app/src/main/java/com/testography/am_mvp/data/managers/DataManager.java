@@ -1,11 +1,14 @@
 package com.testography.am_mvp.data.managers;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.testography.am_mvp.App;
 import com.testography.am_mvp.R;
 import com.testography.am_mvp.data.network.RestService;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
+import com.testography.am_mvp.data.storage.dto.UserAddressDto;
+import com.testography.am_mvp.data.storage.dto.UserDto;
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.di.components.DaggerDataManagerComponent;
 import com.testography.am_mvp.di.components.DataManagerComponent;
@@ -14,7 +17,9 @@ import com.testography.am_mvp.di.modules.NetworkModule;
 import com.testography.am_mvp.utils.ConstantsManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -28,6 +33,35 @@ public class DataManager {
     private List<ProductDto> mMockProductList;
 
     private Context mAppContext;
+
+    private UserDto mUser;
+    private Map<String, String> mUserProfileInfo;
+    private ArrayList<UserAddressDto> mUserAddresses;
+    private Map<String, Boolean> mUserSettings;
+
+    private void initMockUserData() {
+        mUserProfileInfo = new HashMap<>();
+        mUserProfileInfo.put(PreferencesManager.PROFILE_FULL_NAME_KEY, "User full" +
+                " name");
+        mUserProfileInfo.put(PreferencesManager.PROFILE_AVATAR_KEY, "Avatar key");
+        mUserProfileInfo.put(PreferencesManager.PROFILE_PHONE_KEY, "334-29-3093");
+
+        mUserAddresses = new ArrayList<>();
+        UserAddressDto userAddress;
+        userAddress = new UserAddressDto(3, "Home", "Airport Road", "24", "56",
+                9, "Beware of crazy dogs");
+        mUserAddresses.add(userAddress);
+
+        userAddress = new UserAddressDto(5, "Work", "Central Park", "123", "67",
+                2, "In the middle of nowhere");
+        mUserAddresses.add(userAddress);
+
+        mUserSettings = new HashMap<>();
+        mUserSettings.put(PreferencesManager.NOTIFICATION_ORDER_KEY, true);
+        mUserSettings.put(PreferencesManager.NOTIFICATION_PROMO_KEY, false);
+
+        mUser = new UserDto(mUserProfileInfo, mUserAddresses, mUserSettings);
+    }
 
     public DataManager() {
 
@@ -47,6 +81,8 @@ public class DataManager {
         }
         component.inject(this);
         generateMockData();
+
+        initMockUserData();
     }
 
     public PreferencesManager getPreferencesManager() {
@@ -82,6 +118,36 @@ public class DataManager {
 
     private String getResVal(int resourceId) {
         return getAppContext().getString(resourceId);
+    }
+
+    /////////////////////////////////////////////
+
+    public Map<String, String> getUserProfileInfo() {
+        return mUserProfileInfo;
+    }
+
+    public ArrayList<UserAddressDto> getUserAddresses() {
+        return mUserAddresses;
+    }
+
+    public Map<String, Boolean> getUserSettings() {
+        return mUserSettings;
+    }
+
+    public void saveProfileInfo(String name, String phone) {
+        // TODO: 29-Nov-16 implement method
+    }
+
+    public void saveAvatarPhoto(Uri photoUri) {
+        // TODO: 29-Nov-16 implement this
+    }
+
+    public void saveSetting(String notificationKey, boolean isChecked) {
+
+    }
+
+    public void addAddress(UserAddressDto userAddressDto) {
+
     }
 
     private void generateMockData() {

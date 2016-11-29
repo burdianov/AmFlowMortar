@@ -73,7 +73,6 @@ public class SplashActivity extends AppCompatActivity implements IRootView {
 
         DaggerService.<RootActivity.RootComponent>getDaggerComponent(this).inject
                 (this);
-
     }
 
     @Override

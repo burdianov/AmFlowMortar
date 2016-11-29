@@ -2,6 +2,7 @@ package com.testography.am_mvp.mvp.models;
 
 import android.net.Uri;
 
+import com.testography.am_mvp.data.managers.PreferencesManager;
 import com.testography.am_mvp.data.storage.dto.UserAddressDto;
 import com.testography.am_mvp.data.storage.dto.UserDto;
 
@@ -15,19 +16,19 @@ public class AccountModel extends AbstractModel {
     }
 
     private Map<String, String> getUserProfileInfo() {
-        return null;//mDataManager.getUserProfileInfo();
+        return mDataManager.getUserProfileInfo();
     }
 
     private ArrayList<UserAddressDto> getUserAddresses() {
-        return null;//mDataManager.getUserAddress();
+        return mDataManager.getUserAddresses();
     }
 
     private Map<String, Boolean> getUserSettings() {
-        return null;//mDataManager.getUserSetting();
+        return mDataManager.getUserSettings();
     }
 
     public void saveProfileInfo(String name, String phone) {
-        //mDataManager.saveProfileInfo(name, phone);
+        mDataManager.saveProfileInfo(name, phone);
     }
 
     public void saveAvatarPhoto(Uri photoUri) {
@@ -35,16 +36,16 @@ public class AccountModel extends AbstractModel {
     }
 
     public void savePromoNotification(boolean isChecked) {
-//        mDataManager.saveSetting(PreferencesManager.NOTIFICATION_PROMO_KEY, isChecked);
+        mDataManager.saveSetting(PreferencesManager.NOTIFICATION_PROMO_KEY, isChecked);
     }
 
     public void saveOrderNotification(boolean isChecked) {
-//        mDataManager.saveSetting(PreferencesManager.NOTIFICATION_ORDER_KEY,
-//                isChecked);
+        mDataManager.saveSetting(PreferencesManager.NOTIFICATION_ORDER_KEY,
+                isChecked);
     }
 
     public void addAddress(UserAddressDto userAddressDto) {
-//        mDataManager.addAddress(userAddressDto);
+        mDataManager.addAddress(userAddressDto);
     }
 
     // TODO: 29-Nov-16 remove address

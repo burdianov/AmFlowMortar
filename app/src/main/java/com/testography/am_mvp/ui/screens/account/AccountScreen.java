@@ -14,10 +14,12 @@ import com.testography.am_mvp.mvp.presenters.IAccountPresenter;
 import com.testography.am_mvp.mvp.presenters.RootPresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.ui.activities.RootActivity;
+import com.testography.am_mvp.ui.screens.address.AddressScreen;
 
 import javax.inject.Inject;
 
 import dagger.Provides;
+import flow.Flow;
 import mortar.MortarScope;
 import mortar.ViewPresenter;
 
@@ -101,7 +103,7 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
 
         @Override
         public void onClickAddress() {
-            // TODO: 29-Nov-16 flow open new screen AddressScreen
+            Flow.get(getView()).set(new AddressScreen());
         }
 
         @Override

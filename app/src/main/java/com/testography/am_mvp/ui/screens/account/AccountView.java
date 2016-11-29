@@ -243,6 +243,11 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     void testEditMode() {
         mPresenter.switchViewState();
     }
+
+    @OnClick(R.id.add_address_btn)
+    void clickAddAddress() {
+        mPresenter.onClickAddress();
+    }
     //endregion
 
 

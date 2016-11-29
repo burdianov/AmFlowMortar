@@ -1,17 +1,23 @@
 package com.testography.am_mvp.ui.screens.address;
 
+import com.testography.am_mvp.R;
+import com.testography.am_mvp.di.DaggerService;
+import com.testography.am_mvp.di.scopes.AddressScope;
 import com.testography.am_mvp.flow.AbstractScreen;
+import com.testography.am_mvp.flow.Screen;
 import com.testography.am_mvp.mvp.models.AccountModel;
 import com.testography.am_mvp.mvp.presenters.IAddressPresenter;
 import com.testography.am_mvp.ui.screens.account.AccountScreen;
 
 import javax.inject.Inject;
 
+import dagger.Provides;
 import flow.Flow;
 import flow.TreeKey;
 import mortar.MortarScope;
 import mortar.ViewPresenter;
 
+@Screen(R.layout.screen_add_address)
 public class AddressScreen extends AbstractScreen<AccountScreen.Component>
         implements TreeKey {
 
@@ -26,7 +32,23 @@ public class AddressScreen extends AbstractScreen<AccountScreen.Component>
     }
 
     //region ==================== DI ===================
+    @dagger.Module
+    public class Module {
+        @Provides
+        @AddressScope
+        AddressPresenter provideAddressPresenter() {
+            return new AddressPresenter();
+        }
+    }
 
+    @dagger.Component(dependencies = AccountScreen.Component.class, modules =
+            Module.class)
+    @AddressScope
+    public interface Component {
+        void inject(AddressPresenter presenter);
+
+        void inject(AddressView view);
+    }
     //endregion
 
 
@@ -40,12 +62,16 @@ public class AddressScreen extends AbstractScreen<AccountScreen.Component>
         @Override
         protected void onEnterScope(MortarScope scope) {
             super.onEnterScope(scope);
+            ((Component) scope.getService(DaggerService.SERVICE_NAME)).inject(this);
         }
 
         @Override
         public void clickOnAddAddress() {
             // TODO: 29-Nov-16 save address in model
-            Flow.get(getView()).goBack();
+            if (getView() != null) {
+                mAccountModel.addAddress(getView().getUserAddress());
+                Flow.get(getView()).goBack();
+            }
         }
     }
     //endregion

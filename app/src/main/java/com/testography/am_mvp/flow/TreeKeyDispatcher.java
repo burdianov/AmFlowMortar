@@ -88,7 +88,7 @@ public class TreeKeyDispatcher extends KeyChanger implements Dispatcher {
             incomingState.restore(newView);
 
             //delete old view
-            if ((outKey) != null) {
+            if ((outKey) != null && !(inKey instanceof TreeKey)) {
                 ((AbstractScreen) outKey).unregisterScope();
             }
 

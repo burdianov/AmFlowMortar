@@ -19,9 +19,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.R;
+import com.testography.am_mvp.data.storage.dto.UserAddressDto;
 import com.testography.am_mvp.data.storage.dto.UserDto;
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.mvp.views.IAccountView;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -51,7 +54,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     @BindView(R.id.profile_name_wrapper)
     LinearLayout profileNameWrapper;
     @BindView(R.id.address_list)
-    RecyclerView addressList;
+    RecyclerView mAddressList;
     @BindView(R.id.add_address_btn)
     Button addAddressBtn;
     @BindView(R.id.notification_order_sw)
@@ -62,6 +65,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     private AccountScreen mScreen;
     private UserDto mUserDto;
     private TextWatcher mWatcher;
+    private AddressesAdapter mAddressesAdapter;
 
     public AccountView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -132,9 +136,14 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
 
     private void initList() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        addressList.setLayoutManager(layoutManager);
+        mAddressList.setLayoutManager(layoutManager);
+        mAddressList.setVisibility(VISIBLE);
+        ArrayList<UserAddressDto> userAddresses = mUserDto.getUserAddresses();
+        mAddressesAdapter = new AddressesAdapter(userAddresses);
+        mAddressList.setAdapter(mAddressesAdapter);
+
         // TODO: 28-Nov-16 create adapter
-//        addressList.setAdapter();
+//        mAddressList.setAdapter();
     }
 
     private void initProfileInfo() {

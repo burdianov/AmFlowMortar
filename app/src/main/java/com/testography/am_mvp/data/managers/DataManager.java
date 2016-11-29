@@ -41,9 +41,9 @@ public class DataManager {
 
     private void initMockUserData() {
         mUserProfileInfo = new HashMap<>();
-        mUserProfileInfo.put(PreferencesManager.PROFILE_FULL_NAME_KEY, "User full" +
-                " name");
-        mUserProfileInfo.put(PreferencesManager.PROFILE_AVATAR_KEY, "Avatar key");
+        mUserProfileInfo.put(PreferencesManager.PROFILE_FULL_NAME_KEY, "Donald " +
+                "Trump");
+        mUserProfileInfo.put(PreferencesManager.PROFILE_AVATAR_KEY, "http://vignette2.wikia.nocookie.net/the-mystery-case-files/images/d/d4/Mickey_Mouse.png/revision/latest?cb=20130927025337");
         mUserProfileInfo.put(PreferencesManager.PROFILE_PHONE_KEY, "334-29-3093");
 
         mUserAddresses = new ArrayList<>();
@@ -139,15 +139,15 @@ public class DataManager {
     }
 
     public void saveAvatarPhoto(Uri photoUri) {
-        // TODO: 29-Nov-16 implement this
+        // TODO: 29-Nov-16 implement method
     }
 
     public void saveSetting(String notificationKey, boolean isChecked) {
-
+        // TODO: 29-Nov-16 implement method
     }
 
     public void addAddress(UserAddressDto userAddressDto) {
-
+        // TODO: 29-Nov-16 implement method
     }
 
     private void generateMockData() {

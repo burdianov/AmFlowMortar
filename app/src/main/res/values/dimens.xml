@@ -87,5 +87,6 @@
     <dimen name="spacing_normal">16dp</dimen>
     <dimen name="avatar_margin_top">116dp</dimen>
     <dimen name="collapsing_toolbar_height">180dp</dimen>
+    <dimen name="account_avatar_margin_top">110dp</dimen>
 
 </resources>

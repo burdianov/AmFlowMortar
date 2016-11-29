@@ -39,7 +39,7 @@
         android:layout_width="@dimen/account_avatar_width"
         android:layout_height="@dimen/account_avatar_height"
         android:layout_gravity="top|center_horizontal"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="@dimen/account_avatar_margin_top"
         android:elevation="4dp"
         android:src="@drawable/user_avatar"
         app:layout_anchorGravity="bottom|center_horizontal"
@@ -79,6 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/grey"
+                        android:textSize="@dimen/size_small_16"
                         android:enabled="false"
                         android:focusable="false"
                         android:hint="@string/user_full_name"
@@ -130,10 +131,10 @@
 
             <Button
                 android:id="@+id/add_address_btn"
-                style="@style/CustomButton"
+                style="@style/CustomButtonAccount"
                 android:layout_marginTop="@dimen/spacing_normal_16"
                 android:text="@string/add_address"
-                android:theme="@style/CustomButtonAccount"/>
+                android:theme="@style/StartBtn"/>
 
             <View
                 style="@style/HorizontalDivider"

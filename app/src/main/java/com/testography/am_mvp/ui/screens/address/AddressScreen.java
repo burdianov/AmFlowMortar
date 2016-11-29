@@ -23,7 +23,9 @@ public class AddressScreen extends AbstractScreen<AccountScreen.Component>
 
     @Override
     public Object createScreenComponent(AccountScreen.Component parentComponent) {
-        return null;
+        return DaggerAddressScreen_Component.builder().component(parentComponent)
+                .module(new Module())
+                .build();
     }
 
     @Override

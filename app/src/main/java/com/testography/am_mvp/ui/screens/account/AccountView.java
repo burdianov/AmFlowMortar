@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -141,6 +142,10 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         ArrayList<UserAddressDto> userAddresses = mUserDto.getUserAddresses();
         mAddressesAdapter = new AddressesAdapter(userAddresses);
         mAddressList.setAdapter(mAddressesAdapter);
+
+        SimpleTouchCallback callback = new SimpleTouchCallback(mAddressesAdapter);
+        ItemTouchHelper helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(mAddressList);
     }
 
     private void initProfileInfo() {

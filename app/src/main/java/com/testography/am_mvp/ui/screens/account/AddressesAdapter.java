@@ -13,7 +13,7 @@ import com.testography.am_mvp.data.storage.dto.UserAddressDto;
 import java.util.ArrayList;
 
 public class AddressesAdapter extends RecyclerView
-        .Adapter<AddressesAdapter.AddressViewHolder> {
+        .Adapter<AddressesAdapter.AddressViewHolder> implements SwipeListener {
 
     private ArrayList<UserAddressDto> mUserAddresses;
 
@@ -56,6 +56,13 @@ public class AddressesAdapter extends RecyclerView
     @Override
     public int getItemCount() {
         return mUserAddresses.size();
+    }
+
+    @Override
+    public void onSwipe(int position) {
+        mUserAddresses.remove(position);
+        notifyDataSetChanged();
+//        notifyItemRemoved(position);
     }
 
     public static class AddressViewHolder extends RecyclerView.ViewHolder {

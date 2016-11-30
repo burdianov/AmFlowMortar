@@ -112,10 +112,11 @@
 
     <style name="CustomButtonAccount">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/size_medium_56</item>
+        <item name="android:layout_height">@dimen/size_medium_64</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/font_small_12</item>
         <item name="android:fontFamily">@string/roboto_regular</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginLeft">@dimen/spacing_zero</item>
         <item name="android:layout_marginRight">@dimen/spacing_zero</item>
@@ -144,8 +145,8 @@
     </style>
 
     <style name="Icon">
-        <item name="android:layout_width">@dimen/spacing_normal_16</item>
-        <item name="android:layout_height">@dimen/spacing_normal_16</item>
+        <item name="android:layout_width">@dimen/pointer_size</item>
+        <item name="android:layout_height">@dimen/pointer_size</item>
         <item name="android:layout_marginRight">@dimen/spacing_normal_16</item>
         <item name="android:layout_marginTop">@dimen/spacing_small_8</item>
         <item name="android:src">@drawable/ic_call_black_24dp</item>
@@ -162,6 +163,7 @@
     <style name="AccountTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">#474a4f</item>
         <item name="android:layout_marginBottom">@dimen/spacing_medial_24</item>
         <item name="android:textSize">@dimen/font_small_14</item>
         <item name="android:textStyle">bold</item>

@@ -12,4 +12,5 @@
     <color name="color_black">@android:color/black</color>
     <color name="color_white">@android:color/white</color>
     <color name="color_grey_darker">@android:color/darker_gray</color>
+    <color name="account_title_color">#474A4F</color>
 </resources>

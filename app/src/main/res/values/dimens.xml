@@ -79,7 +79,7 @@
     <dimen name="appbar_account_margin_top">0dp</dimen>
     <dimen name="account_avatar_height">140dp</dimen>
     <dimen name="account_avatar_width">140dp</dimen>
-    <dimen name="pointer_size">18dp</dimen>
+    <dimen name="pointer_size">24dp</dimen>
     <dimen name="account_toolbar_height">184dp</dimen>
 
     <dimen name="image_width">120dp</dimen>

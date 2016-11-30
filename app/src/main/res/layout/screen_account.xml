@@ -56,7 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingTop="@dimen/spacing_larger_86">
+            android:paddingTop="@dimen/spacing_larger_86"
+            android:paddingBottom="@dimen/spacing_medium_32">
 
             <LinearLayout
                 android:id="@+id/profile_name_wrapper"
@@ -76,10 +77,12 @@
 
                     <EditText
                         android:id="@+id/user_full_name_et"
+                        android:background="@null"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/grey"
                         android:textSize="@dimen/size_small_16"
+                        android:textColor="@color/account_title_color"
                         android:enabled="false"
                         android:focusable="false"
                         android:hint="@string/user_full_name"
@@ -132,7 +135,6 @@
             <Button
                 android:id="@+id/add_address_btn"
                 style="@style/CustomButtonAccount"
-                android:layout_marginTop="@dimen/spacing_normal_16"
                 android:text="@string/add_address"
                 android:theme="@style/StartBtn"/>
 

@@ -41,9 +41,9 @@ public class DataManager {
 
     private void initMockUserData() {
         mUserProfileInfo = new HashMap<>();
-        mUserProfileInfo.put(PreferencesManager.PROFILE_FULL_NAME_KEY, "Donald " +
-                "Trump");
-        mUserProfileInfo.put(PreferencesManager.PROFILE_AVATAR_KEY, "http://vignette2.wikia.nocookie.net/the-mystery-case-files/images/d/d4/Mickey_Mouse.png/revision/latest?cb=20130927025337");
+        mUserProfileInfo.put(PreferencesManager.PROFILE_FULL_NAME_KEY, "Hulk " +
+                "Hogan");
+        mUserProfileInfo.put(PreferencesManager.PROFILE_AVATAR_KEY, "http://a1.files.biography.com/image/upload/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTIwNjA4NjM0MDQyNzQ2Mzgw.jpg");
         mUserProfileInfo.put(PreferencesManager.PROFILE_PHONE_KEY, "334-29-3093");
 
         mUserAddresses = new ArrayList<>();

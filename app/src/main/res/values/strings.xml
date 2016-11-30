@@ -88,7 +88,7 @@
     <string name="work_comments_label">Comments</string>
     <string name="work_comments">The only office on the floor</string>
     <string name="push_notifications">Push notifications:</string>
-    <string name="order_status_notification">Notify about the order status</string>
+    <string name="order_status_notification">Notify about order status</string>
     <string name="special_offer_notification">Notify about promotions and special offers</string>
     <string name="delivery_location_label">Delivery location</string>
     <string name="delivery_location">In the middle of nowhere</string>
@@ -99,6 +99,6 @@
     <string name="street">Street</string>
     <string name="dummy_street">Dummy Street</string>
     <string name="basket">Basket</string>
-    <string name="user_full_name">Константин Константинов</string>
+    <string name="user_full_name">Hulk Hogan</string>
 
 </resources>

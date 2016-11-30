@@ -31,8 +31,26 @@ public class AddressesAdapter extends RecyclerView
 
     @Override
     public void onBindViewHolder(AddressViewHolder holder, int position) {
-        holder.name.setText(mUserAddresses.get(position).getName());
-        holder.street.setText(mUserAddresses.get(position).getStreet());
+        UserAddressDto info = mUserAddresses.get(position);
+        holder.name.setText(info.getName());
+        StringBuilder addressBuilder = buildAddress(info);
+        holder.completeAddress.setText(addressBuilder);
+        holder.comment.setText(info.getComment());
+    }
+
+    private StringBuilder buildAddress(UserAddressDto info) {
+        StringBuilder addressBuilder = new StringBuilder();
+
+        addressBuilder.append(info.getStreet());
+        addressBuilder.append(" ");
+        addressBuilder.append(info.getHouse());
+        addressBuilder.append(" - ");
+        addressBuilder.append(info.getApartment());
+        addressBuilder.append(", ");
+        addressBuilder.append(info.getFloor());
+        addressBuilder.append(" floor");
+
+        return addressBuilder;
     }
 
     @Override
@@ -43,17 +61,16 @@ public class AddressesAdapter extends RecyclerView
     public static class AddressViewHolder extends RecyclerView.ViewHolder {
 
         private TextView name;
-        private EditText street;
-//        this.house = house;
-//        this.apartment = apartment;
-//        this.floor = floor;
-//        this.comment = comment;
+        private EditText completeAddress;
+        private EditText comment;
 
         public AddressViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.account_address_name_txt);
-            street = (EditText) itemView.findViewById(R.id
+            completeAddress = (EditText) itemView.findViewById(R.id
                     .account_address_street_et);
+            comment = (EditText) itemView.findViewById(R.id.account_address_comment_et);
+
         }
     }
 }

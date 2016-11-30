@@ -141,9 +141,6 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         ArrayList<UserAddressDto> userAddresses = mUserDto.getUserAddresses();
         mAddressesAdapter = new AddressesAdapter(userAddresses);
         mAddressList.setAdapter(mAddressesAdapter);
-
-        // TODO: 28-Nov-16 create adapter
-//        mAddressList.setAdapter();
     }
 
     private void initProfileInfo() {

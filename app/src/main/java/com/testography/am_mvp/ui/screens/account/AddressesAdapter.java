@@ -61,8 +61,8 @@ public class AddressesAdapter extends RecyclerView
     @Override
     public void onSwipe(int position) {
         mUserAddresses.remove(position);
-        notifyDataSetChanged();
-//        notifyItemRemoved(position);
+//        notifyDataSetChanged();
+        notifyItemRemoved(position);
     }
 
     public static class AddressViewHolder extends RecyclerView.ViewHolder {

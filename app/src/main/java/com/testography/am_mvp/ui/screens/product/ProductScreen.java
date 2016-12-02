@@ -93,22 +93,24 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
 
         @Override
         public void clickOnPlus() {
-            mProduct.addProduct();
+            // TODO: 02-Dec-16 correct the implementation to avoid app crush
+           /* mProduct.addProduct();
             mCatalogModel.updateProduct(mProduct);
             if (getView() != null) {
                 getView().updateProductCountView(mProduct);
-            }
+            }*/
         }
 
         @Override
         public void clickOnMinus() {
-            if (mProduct.getCount() > 0) {
+            // TODO: 02-Dec-16 correct the implementation to avoid app crush
+            /*if (mProduct.getCount() > 0) {
                 mProduct.deleteProduct();
                 mCatalogModel.updateProduct(mProduct);
                 if (getView() != null) {
                     getView().updateProductCountView(mProduct);
                 }
-            }
+            }*/
         }
     }
     //endregion

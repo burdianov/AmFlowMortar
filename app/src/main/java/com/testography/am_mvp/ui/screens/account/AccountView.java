@@ -139,6 +139,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mAddressList.setLayoutManager(layoutManager);
         mAddressList.setVisibility(VISIBLE);
+
         ArrayList<UserAddressDto> userAddresses = mUserDto.getUserAddresses();
         mAddressesAdapter = new AddressesAdapter(userAddresses);
         mAddressList.setAdapter(mAddressesAdapter);
@@ -259,6 +260,56 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     void clickAddAddress() {
         mPresenter.onClickAddress();
     }
+    //endregion
+
+    //region ==================== Avatar manipulations ===================
+   /* private void loadPhotoFromGallery() {
+        Intent takeGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        takeGalleryIntent.setType("image*//**//*");
+        getContext().startActivityForResult(Intent.createChooser(takeGalleryIntent,
+                getContext().getString(R.string.user_profile_choose_message)),
+                ConstantsManager.REQUEST_GALLERY_PICTURE);
+
+    }
+
+    private void loadPhotoFromCamera() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission
+                .CAMERA) == PackageManager.PERMISSION_GRANTED && ContextCompat
+                .checkSelfPermission(this, android.Manifest.permission
+                        .WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Intent takeCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            try {
+                mPhotoFile = createImageFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // TODO: 24-Sep-16 process the exeption
+            }
+
+            if (mPhotoFile != null) {
+                // TODO: 24-Sep-16 pass the photofile to the intent
+                takeCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile
+                        (mPhotoFile));
+                startActivityForResult(takeCaptureIntent,
+                        ConstantsManager.REQUEST_CAMERA_PICTURE);
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{
+                    android.Manifest.permission.CAMERA,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            }, ConstantManager.CAMERA_REQUEST_PERMISSION_CODE);
+
+            Snackbar.make(mCoordinatorLayout, "In order for application to " +
+                            "function properly, please set the necessary rights",
+                    Snackbar.LENGTH_LONG).setAction("Allow", new View
+                    .OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openApplicationSettings();
+                }
+            }).show();
+        }
+    }*/
     //endregion
 
 

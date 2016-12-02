@@ -9,6 +9,8 @@ public interface IRootView extends IView {
     void showLoad();
     void hideLoad();
 
+//    void setTypeface();
+
     @Nullable
     IView getCurrentScreen();
 }

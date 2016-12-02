@@ -163,7 +163,7 @@ public class SplashActivity extends AppCompatActivity implements IRootView {
 //    public void setTypeface() {
 //        String customFont = ConstantsManager.CUSTOM_FONTS_ROOT + ConstantsManager
 //                .CUSTOM_FONT_NAME;
-//        mAppNameTxt.setTypeface(Typeface.createFromAsset(getAssets(), customFont));
+////        mAppNameTxt.setTypeface(Typeface.createFromAsset(getAssets(), customFont));
 //    }
 
 //    @Override

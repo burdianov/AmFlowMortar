@@ -16,7 +16,6 @@ public abstract class AbstractScreen<T> extends ClassKey {
 
     public abstract Object createScreenComponent(T parentComponent);
 
-    // TODO: 25-Nov-16 unregister scope 
     public void unregisterScope() {
         Log.e(TAG, "unregisterScope: " + this.getScopeName());
         ScreenScoper.destroyScreenScope(getScopeName());

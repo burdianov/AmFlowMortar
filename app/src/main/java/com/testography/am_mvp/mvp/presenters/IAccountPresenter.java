@@ -1,5 +1,7 @@
 package com.testography.am_mvp.mvp.presenters;
 
+import android.net.Uri;
+
 public interface IAccountPresenter {
     void onClickAddress();
 
@@ -14,4 +16,8 @@ public interface IAccountPresenter {
     void chooseCamera();
 
     void chooseGallery();
+
+    Uri getSelectedImage();
+
+    void setAvatar(Uri avatar);
 }

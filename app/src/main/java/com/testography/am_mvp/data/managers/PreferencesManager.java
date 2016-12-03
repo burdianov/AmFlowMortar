@@ -36,4 +36,21 @@ public class PreferencesManager {
         editor.clear();
         editor.apply();
     }
+
+    void saveAvatar(String avatar) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(PROFILE_AVATAR_KEY, avatar);
+        editor.apply();
+    }
+
+    String checkAvatar() {
+        String avatar;
+
+        if (mSharedPreferences.contains(PROFILE_AVATAR_KEY)) {
+            avatar = mSharedPreferences.getString(PROFILE_AVATAR_KEY, "null");
+        } else {
+            avatar = "null";
+        }
+        return avatar;
+    }
 }

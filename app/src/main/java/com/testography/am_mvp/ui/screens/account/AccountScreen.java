@@ -95,9 +95,10 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
         @Override
         protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
-            if (getView() != null) {
+            if (getRootView() != null && getView() != null) {
 
                 getView().initView(mAccountModel.getUserDto());
+                mAvatarUri = Uri.parse(mAccountModel.getUserDto().getAvatar());
             }
         }
 
@@ -109,9 +110,9 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
         @Override
         public void switchViewState() {
             if (getCustomState() == AccountView.EDIT_STATE && getView() != null) {
-                mAccountModel.saveProfileInfo(getView().getUserName(), getView()
-                        .getUserPhone());
-                mAccountModel.saveAvatarPhoto(mAvatarUri);
+//                mAccountModel.saveProfileInfo(getView().getUserName(), getView()
+//                        .getUserPhone());
+//                mAccountModel.saveAvatarPhoto(mAvatarUri);
             }
             if (getView() != null) {
                 getView().changeState();
@@ -138,21 +139,29 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
         @Override
         public void chooseCamera() {
             if (getView() != null) {
-                getRootView().showMessage("chooseCamera");
+                getRootView().loadPhotoFromCamera();
             }
-            // TODO: 29-Nov-16 choose camera
         }
 
         @Override
         public void chooseGallery() {
             if (getView() != null) {
-                getRootView().showMessage("chooseGallery");
+                getRootView().loadPhotoFromGallery();
             }
-            // TODO: 29-Nov-16 choose gallery
+        }
+
+        @Override
+        public Uri getSelectedImage() {
+            return getRootView().getPhoto();
+        }
+
+        @Override
+        public void setAvatar(Uri avatar) {
+            mAccountModel.saveAvatarPhoto(avatar);
         }
 
         @Nullable
-        private IRootView getRootView() {
+        public IRootView getRootView() {
             return mRootPresenter.getView();
         }
     }

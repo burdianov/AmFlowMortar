@@ -40,8 +40,8 @@
     <string name="lorem_ipsum">Donec et ex laoreet, aliquet metus in, malesuada ligula. Promto di carste psi</string>
 
     <!-- Product names -->
-    <string name="product_name_1">Camera</string>
-    <string name="product_name_2">Monitor</string>
+    <string name="product_name_1">Monitor</string>
+    <string name="product_name_2">Camera</string>
     <string name="product_name_3">Printer</string>
     <string name="product_name_4">Laptop</string>
     <string name="product_name_5">Guitar</string>
@@ -52,8 +52,8 @@
     <string name="product_name_10">Shoes</string>
 
     <!-- Product Uris -->
-    <string name="product_url_1">http://img01.deviantart.net/f308/i/2012/007/8/3/camera_02_png_hq_by_gd08-d4lllmr.png</string>
-    <string name="product_url_2">http://pngimg.com/upload/laptop_PNG5875.png</string>
+    <string name="product_url_2">http://img01.deviantart.net/f308/i/2012/007/8/3/camera_02_png_hq_by_gd08-d4lllmr.png</string>
+    <string name="product_url_1">http://pngimg.com/upload/laptop_PNG5875.png</string>
     <string name="product_url_3">http://pngimg.com/upload/printer_PNG7726.png</string>
     <string name="product_url_4">http://images.clipartpanda.com/laptop-png-The-Lenovo-IdeaPad-Y550P-324156U-laptop.png</string>
     <string name="product_url_5">https://d13yacurqjgara.cloudfront.net/users/5172/screenshots/873110/attachments/93723/guitar.png</string>
@@ -100,5 +100,11 @@
     <string name="dummy_street">Dummy Street</string>
     <string name="basket">Basket</string>
     <string name="user_full_name">Hulk Hogan</string>
+    <string name="user_full_name_label">Full Name</string>
+    <string name="cancel">Cancel</string>
+    <string name="choose_photo">Choose photo</string>
+    <string name="take_photo">Take photo</string>
+    <string name="change_photo">Change photo</string>
+    <string name="pick_a_photo">Pick a photo</string>
 
 </resources>

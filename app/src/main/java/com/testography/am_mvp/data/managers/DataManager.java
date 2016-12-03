@@ -2,6 +2,7 @@ package com.testography.am_mvp.data.managers;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import com.testography.am_mvp.App;
 import com.testography.am_mvp.R;
@@ -41,9 +42,16 @@ public class DataManager {
 
     private void initMockUserData() {
         mUserProfileInfo = new HashMap<>();
+
         mUserProfileInfo.put(PreferencesManager.PROFILE_FULL_NAME_KEY, "Hulk " +
                 "Hogan");
-        mUserProfileInfo.put(PreferencesManager.PROFILE_AVATAR_KEY, "http://a1.files.biography.com/image/upload/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTIwNjA4NjM0MDQyNzQ2Mzgw.jpg");
+        String avatar = mPreferencesManager.checkAvatar();
+        Log.e("pppppppp", "initMockUserData: " + avatar);
+        if (avatar == "null") {
+            avatar = "http://a1.files.biography.com/image/upload/c_fill,cs_srgb," +
+                    "dpr_1.0,g_face,h_300,q_80,w_300/MTIwNjA4NjM0MDQyNzQ2Mzgw.jpg";
+        }
+        mUserProfileInfo.put(PreferencesManager.PROFILE_AVATAR_KEY, avatar);
         mUserProfileInfo.put(PreferencesManager.PROFILE_PHONE_KEY, "334-29-3093");
 
         mUserAddresses = new ArrayList<>();
@@ -65,7 +73,6 @@ public class DataManager {
 
     public DataManager() {
 
-//        mPreferencesManager = new PreferencesManager();
         // TODO: 04-Nov-16 the following line MUST BE REFACTORED AS PER DI
         mAppContext = App.getAppContext();
 
@@ -139,7 +146,7 @@ public class DataManager {
     }
 
     public void saveAvatarPhoto(Uri photoUri) {
-        // TODO: 29-Nov-16 implement method
+        mPreferencesManager.saveAvatar(photoUri.toString());
     }
 
     public void saveSetting(String notificationKey, boolean isChecked) {

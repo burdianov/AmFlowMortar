@@ -2,6 +2,7 @@ package com.testography.am_mvp.ui.screens.account;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,12 +19,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.R;
 import com.testography.am_mvp.data.storage.dto.UserAddressDto;
 import com.testography.am_mvp.data.storage.dto.UserDto;
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.mvp.views.IAccountView;
+import com.testography.am_mvp.ui.activities.RootActivity;
 
 import java.util.ArrayList;
 
@@ -34,7 +37,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import flow.Flow;
 
-public class AccountView extends CoordinatorLayout implements IAccountView {
+public class AccountView extends CoordinatorLayout implements IAccountView,
+        RootActivity.AvatarHolderCallback {
 
     public static final int PREVIEW_STATE = 1;
     public static final int EDIT_STATE = 0;
@@ -47,7 +51,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     @BindView(R.id.profile_name_txt)
     TextView profileNameTxt;
     @BindView(R.id.user_avatar_img)
-    ImageView userAvatarImg;
+    ImageView mUserAvatarImg;
     @BindView(R.id.user_phone_et)
     EditText userPhoneEt;
     @BindView(R.id.user_full_name_et)
@@ -97,6 +101,9 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         super.onAttachedToWindow();
         if (!isInEditMode()) {
             mPresenter.takeView(this);
+            if (mPresenter.getRootView() != null) {
+                mPresenter.getRootView().setAvatarCallback(this);
+            }
         }
     }
 
@@ -154,7 +161,8 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         userFullNameEt.setText(mUserDto.getFullname());
         userPhoneEt.setText(mUserDto.getPhone());
         mPicasso.load(mUserDto.getAvatar())
-                .into(userAvatarImg);
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .into(mUserAvatarImg);
     }
 
     //region ==================== IAccountView ===================
@@ -191,7 +199,8 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         userPhoneEt.setEnabled(true);
         mPicasso.load(R.drawable.ic_add_white_24dp)
                 .error(R.drawable.ic_add_white_24dp)
-                .into(userAvatarImg);
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .into(mUserAvatarImg);
     }
 
     @Override
@@ -200,14 +209,22 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         userPhoneEt.setEnabled(false);
         userFullNameEt.removeTextChangedListener(mWatcher);
         mPicasso.load(mUserDto.getAvatar())
-                .into(userAvatarImg);
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .into(mUserAvatarImg);
     }
 
     @Override
     public void showPhotoSourceDialog() {
-        String source[] = {"Upload from gallery", "Take a picture", "Cancel"};
+        String source[] = {getContext().getString(R.string.choose_photo), getContext().getString(R.string.take_photo)};
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-        alertDialog.setTitle("Place photo");
+
+        alertDialog.setTitle(R.string.change_photo);
+        alertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
         alertDialog.setItems(source, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -217,9 +234,6 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
                         break;
                     case 1:
                         mPresenter.chooseCamera();
-                        break;
-                    case 2:
-                        dialogInterface.cancel();
                         break;
                 }
             }
@@ -249,7 +263,6 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     //endregion
 
     //region ==================== Events ===================
-    // TODO: 29-Nov-16 delete item address using swipe
 
     @OnClick(R.id.collapsing_toolbar)
     void testEditMode() {
@@ -260,57 +273,18 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     void clickAddAddress() {
         mPresenter.onClickAddress();
     }
-    //endregion
 
-    //region ==================== Avatar manipulations ===================
-   /* private void loadPhotoFromGallery() {
-        Intent takeGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-        takeGalleryIntent.setType("image*//**//*");
-        getContext().startActivityForResult(Intent.createChooser(takeGalleryIntent,
-                getContext().getString(R.string.user_profile_choose_message)),
-                ConstantsManager.REQUEST_GALLERY_PICTURE);
-
+    @OnClick(R.id.user_avatar_img)
+    void clickUserAvatar() {
+        if (mScreen.getCustomState() == EDIT_STATE) {
+            mPresenter.takePhoto();
+        }
     }
 
-    private void loadPhotoFromCamera() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission
-                .CAMERA) == PackageManager.PERMISSION_GRANTED && ContextCompat
-                .checkSelfPermission(this, android.Manifest.permission
-                        .WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Intent takeCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            try {
-                mPhotoFile = createImageFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-                // TODO: 24-Sep-16 process the exeption
-            }
+    @Override
+    public void passSelectedImage(Uri avatar) {
+        mPresenter.setAvatar(avatar);
+    }
 
-            if (mPhotoFile != null) {
-                // TODO: 24-Sep-16 pass the photofile to the intent
-                takeCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile
-                        (mPhotoFile));
-                startActivityForResult(takeCaptureIntent,
-                        ConstantsManager.REQUEST_CAMERA_PICTURE);
-            }
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{
-                    android.Manifest.permission.CAMERA,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            }, ConstantManager.CAMERA_REQUEST_PERMISSION_CODE);
-
-            Snackbar.make(mCoordinatorLayout, "In order for application to " +
-                            "function properly, please set the necessary rights",
-                    Snackbar.LENGTH_LONG).setAction("Allow", new View
-                    .OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openApplicationSettings();
-                }
-            }).show();
-        }
-    }*/
     //endregion
-
-
 }

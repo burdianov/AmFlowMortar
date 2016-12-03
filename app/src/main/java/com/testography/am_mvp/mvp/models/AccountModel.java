@@ -32,7 +32,7 @@ public class AccountModel extends AbstractModel {
     }
 
     public void saveAvatarPhoto(Uri photoUri) {
-        // TODO: 29-Nov-16 implement this
+        mDataManager.saveAvatarPhoto(photoUri);
     }
 
     public void savePromoNotification(boolean isChecked) {
